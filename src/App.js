@@ -48,8 +48,8 @@ function App() {
       <main className="container" style={{ minHeight: "81vh" }}>
     
         <Routes>
-          <Route  exaxt path="/" element={<Home/>} />
-          <Route exact path="/:page" element={<Home/>} />
+          <Route exact path="/" element={<Home/>} />
+          
           <Route exact path="/about" element={<About/>} />
           <Route exact path="/signup" element={<SignUpClient/>} />
           <Route exact path="/login" element={<Login/>} />
