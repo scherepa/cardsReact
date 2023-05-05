@@ -53,8 +53,7 @@ function App() {
           <Route exact path="/about" element={<About/>} />
           <Route exact path="/signup" element={<SignUpClient/>} />
           <Route exact path="/login" element={<Login/>} />
-          
-          <Route path="/users/userInfo"
+          <Route path="/userInfo"
             element={
           // Good! Do your composition here instead of wrapping <Route>.
           // This is really just inverting the wrapping, but it's a lot

@@ -6,6 +6,8 @@ import { getUserData } from '../../services/userSer';
 
 function ProtectedRoute({ children, redirectTo, isBiz = false}) {
   let history = useNavigate();
+
+
   const checkTokenUser = async () => {
     let data = await checkIfUser()
     console.log(data);
@@ -30,7 +32,7 @@ function ProtectedRoute({ children, redirectTo, isBiz = false}) {
       toast.error("There problem, log in again");
       // למחוק את הטוקן אם הוא לא תקין
       localStorage.removeItem("tok");
-      history("/login", true);
+      history("/login");
       return false;
     } 
     return true;
