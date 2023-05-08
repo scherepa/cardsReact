@@ -52,10 +52,10 @@ function NavBar(props) {
             </React.Fragment>
             :
             <React.Fragment>
-              <Link to="/userInfo">User info</Link>
+              <Link to="/userInfo" state={{ user }}>User info</Link>
               <Link to="/favorites">My Favorites</Link>
         {/* if we write -?- before -.[property]-than even there is no such property it won't show any error */}
-            { user?.biz && <Link to="/myBizCards">My cards</Link> }
+            { user?.biz && <Link to="/myBizCards" >My cards</Link> }
               <Link onClick={logOut} to="#" className="text-danger">Log out</Link>
             </React.Fragment>
           }

@@ -4,10 +4,11 @@ import { API_URL, doApiMethod } from '../services/apiSer';
 
 import CardsList from './CardsList';
 import PageHeader from './common/pageHeader';
-import { redirect } from 'react-router-dom';
+import CardSkel2 from './common/CardSkel2';
 
 function FavoriteCards(props){
   let [cards_ar,setCardsAr] = useState([]);
+  let [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let url = API_URL + "/users/userCardsFav";
@@ -19,17 +20,19 @@ function FavoriteCards(props){
     let data = await doApiMethod(_url,"GET");
     console.log(data);
     setCardsAr(data);
+    setLoading(false);
     }
     catch(err) {
-      console.log('here')
     }
   }
 
   return(
-    <div>
+    <>
       <PageHeader title="Your favorite business cards" />
-      <CardsList ar={cards_ar}/>
-    </div> 
+      { loading ?
+      <CardSkel2 />
+      : <CardsList ar={cards_ar}/>}   
+    </> 
   )
 }
 

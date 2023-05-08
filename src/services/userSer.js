@@ -10,9 +10,8 @@ export const updateUserData = async () => {
     //otherwise we will redirect to login page
     //for redirecting we will clean tok from localstorage and set user{}
     let url = API_URL + "/users/userInfo";
-    try{ console.log(url);
+    try{
       let data = await doApiMethod(url,"GET");
-      console.log(data);
       if(data._id){
         user = data
       }

@@ -22,12 +22,15 @@ function MyCards(props) {
   }, [props.location])
 
   const doApi = async () => {
-    let url = API_URL + "/cards/userCardsAdded?perPage=999";
-    let data = await doApiMethod(url, "GET");
-
-    console.log(data);
-    data.reverse();
-    setAr(data);
+    try {
+      let url = API_URL + "/cards/userCardsAdded?perPage=999";
+      let data = await doApiMethod(url, "GET");
+      data.reverse();
+      setAr(data);
+      
+    } catch (error) {
+      console.log(error.response.data ? error.response.data.msg : error.message);
+    }
   }
 
   return (
@@ -57,7 +60,7 @@ function MyCards(props) {
                   <td>{item.bizAddress}</td>
                   <td>{item.bizPhone}</td>
                   <td className="d-flex flex-column flex-md-row">
-                    <Link to={"/editCard/"+item._id} className="btn btn-outline-warning m-2" style={{width:"60px"}}>edit</Link>
+                    <Link to={"/editCard/"+item._id} state={{ item }} className="btn btn-outline-warning m-2" style={{width:"60px"}} >edit</Link>
                     <button  className="btn btn-outline-danger m-2" onClick={() => {delCard(item._id);}}  style={{width:"60px"}}>del</button>
                   </td>
                 </tr>

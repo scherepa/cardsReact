@@ -16,7 +16,6 @@ function Login(props){
 
       let url = API_URL+"/users/login";
       let data = await doApiMethod(url,"POST",formData);
-      console.log(data);
       // after getting token we saving it to the localstorage
       localStorage.setItem("tok",data.token);
       // updates user data to be able to get it with service
@@ -52,7 +51,7 @@ function Login(props){
       </div>
       <div>
         <label>Password:</label>
-        <input {...passwordRef} type="text" className="form-control" />
+        <input {...passwordRef} type="password" className="form-control" />
         {errors.password && <span className="text-danger">Enter min 3 charts password</span>}
       </div>
      

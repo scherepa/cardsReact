@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+//import { getUserData, removeUserCardFav, updateUserCardsAddFav };
 import { getUserData, removeUserCardFav, updateUserCardsAddFav } from '../services/userSer';
 
 function CardsList(props) {
 
-  let [userData, setUserData] = useState();
+  let [userData, setUserData] = useState({});
   let [update,forceUpdate] = useState(1)
 
   useEffect(() => {

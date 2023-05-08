@@ -1,19 +1,16 @@
 import React, { useEffect } from 'react';
-import { Route, useNavigate, Routes, Navigate, Link } from "react-router-dom";
+import { Route, useNavigate, Routes, Navigate, Link, useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { checkIfUser } from '../../services/authSer';
 import { getUserData } from '../../services/userSer';
 
 function ProtectedRoute({ children, redirectTo, isBiz = false}) {
   let history = useNavigate();
+  let location = useLocation();
 
 
   const checkTokenUser = async () => {
     let data = await checkIfUser()
-    console.log(data);
-    console.log('protected');
-    console.log(window.location.pathname);
-    console.log(localStorage["tok"]);
   
     // check if this is bussiness route
     if(isBiz){
@@ -29,9 +26,10 @@ function ProtectedRoute({ children, redirectTo, isBiz = false}) {
     
     //if everything ok we getting status otherwise:
     if (!data.status) {
-      toast.error("There problem, log in again");
-      // למחוק את הטוקן אם הוא לא תקין
-      localStorage.removeItem("tok");
+      if ( localStorage["tok"]) {
+        toast.error("There problem, log in again");
+        localStorage.removeItem("tok");
+      }
       history("/login");
       return false;
     } 

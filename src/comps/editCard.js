@@ -1,51 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import { toast } from "react-toastify";
 import { API_URL, doApiGet, doApiMethod } from '../services/apiSer';
 
 
-function EditCard(props) {
+function EditCard(props, state) {
   let [card,setCard] = useState({})
 
   let { register, handleSubmit, setValue, formState: { errors } } = useForm();
   let history = useNavigate();
+  var location = useLocation();
 
   let nameRef = register("bizName", { required: true, minLength: 2 });
   let descRef = register("bizDescription", { required: true, minLength: 2 });
   let addressRef = register("bizAddress", { required: true, minLength: 2 });
   let phoneRef = register("bizPhone", { required: true, minLength: 2 });
   let imageRef = register("bizImage", { required: false });
+  const params = useParams();
+  let curstate = location.state;
+
 
   useEffect(() => {
-    doApi();
-  },[])
+    let id = curstate !== null ? curstate.item._id : params.id;
+    if (curstate === null) {
+      let url = API_URL+"/cards/single/"+id
+    doApi(url);
+  } else {
+    prepareForm(curstate.item);
+  }
+    
+  },[location])
 
-//getting data for inputs
-  const doApi = async() => {
-    let url = API_URL+"cards/single/"+props.computedMatch.params.id
-    let data = await doApiGet(url);
-    console.log(data);
-    setCard(data);
-   
+  const prepareForm = (data)=>{
+    if (data) {
     // updates inputs
     setValue("bizName",data.bizName);
     setValue("bizDescription",data.bizDescription);
     setValue("bizAddress",data.bizAddress);
     setValue("bizPhone",data.bizPhone);
     setValue("bizImage",data.bizImage);
-  
+  } else {
+    toast.error("No card found!");
+  }
+  }
+
+//getting data for inputs
+  const doApi = async(url) => { 
+    let data = await doApiGet(url);
+    setCard(data);
+    prepareForm(data);
   }
 
   const onSubForm = async (dataForm) => {
-    console.log(dataForm);
-
     try {
-      let url = API_URL + "/cards/" + props.computedMatch.params.id;
+      let url = API_URL + "/cards/" + params.id;
       let data = await doApiMethod(url, "PUT", dataForm);
-      console.log(data)
       if (data.n == 1){
-        toast.dark("Card been update");
+        toast.success("Card been update");
         history("/myBizCards");
       }
     }

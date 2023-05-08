@@ -33,7 +33,6 @@ function App() {
 
   const ifUserLogin = async() => {
     let data = await updateUserData();
-    //console.log(data);
     setUser(data);
   }
   

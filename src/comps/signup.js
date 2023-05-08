@@ -20,11 +20,11 @@ function SignUpClient(props){
         // redirects to login
         history("/login");
       }
-      else{
+      else {
         toast.error("There probelm , come back later and try again")
       }
     }
-    catch(err){
+    catch(err) {
       // in axios the err come with response prop and data prop
       console.log(err.response.data);
       if(err.response.data.code){
