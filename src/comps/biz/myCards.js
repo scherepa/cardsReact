@@ -6,6 +6,7 @@ import {toast} from 'react-toastify';
 
 function MyCards(props) {
   let [ar, setAr] = useState([]);
+  let [loading, setLoading] = useState(true);
   const delCard = async(_id) => {
     if(window.confirm("Are you sure you want to del?")){
       let url = API_URL+ "/cards/"+_id;
@@ -27,16 +28,19 @@ function MyCards(props) {
       let data = await doApiMethod(url, "GET");
       data.reverse();
       setAr(data);
-      
+      setLoading(false);
     } catch (error) {
-      console.log(error.response.data ? error.response.data.msg : error.message);
+      console.log(error.response && error.response.data ? error.response.data.msg : error.message);
     }
   }
 
   return (
     <div className="container">
       <PageHeader title="Biz cards you added before:" />
+      {loading ? <Link className="btn btn-outline-success disabled" to="#">Add new biz card</Link>
+      :
       <Link className="btn btn-outline-success" to="/addCard">Add new biz card</Link>
+      }
       <div className="table-responsive">
         <table className="table table-striped table table-hover">
           <thead>
@@ -51,7 +55,42 @@ function MyCards(props) {
             </tr>
           </thead>
           <tbody>
-            {ar.map((item, i) => {
+            {loading ? <tr>
+                  <td className="text-info">
+                    <div className="progress">
+                        <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{width: "100%", backgroundColor: `#DADADA`}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="progress">
+                        <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{width: "100%", backgroundColor: `#DADADA`}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="progress">
+                        <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{width: "100%", backgroundColor: `#DADADA`}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="progress">
+                        <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{width: "100%", backgroundColor: `#DADADA`}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="progress">
+                        <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{width: "100%", backgroundColor: `#DADADA`}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                  </td>
+                  <td className="d-flex flex-column flex-md-row">
+                    <Link to='#' className="btn btn-outline-warning m-2 disabled" style={{width:"60px"}}>edit</Link>
+                    <button  className="btn btn-outline-danger m-2 disabled"  style={{width:"60px"}}>del</button>
+                  </td>
+                </tr> : ar.map((item, i) => {
               return (
                 <tr key={i}>
                   <td className="text-info">{i+1}</td>
@@ -60,8 +99,8 @@ function MyCards(props) {
                   <td>{item.bizAddress}</td>
                   <td>{item.bizPhone}</td>
                   <td className="d-flex flex-column flex-md-row">
-                    <Link to={"/editCard/"+item._id} state={{ item }} className="btn btn-outline-warning m-2" style={{width:"60px"}} >edit</Link>
-                    <button  className="btn btn-outline-danger m-2" onClick={() => {delCard(item._id);}}  style={{width:"60px"}}>del</button>
+                    <Link to={"/editCard/"+item._id} state={{ item }} className="btn btn-outline-warning m-2" style={{width:"60px"}}>edit</Link>
+                    <button  className="btn btn-outline-danger m-2" onClick={() => {delCard(item._id);}}  style={{width:"60px"}} disabled={{loading}}>del</button>
                   </td>
                 </tr>
               )

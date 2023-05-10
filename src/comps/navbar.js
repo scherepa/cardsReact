@@ -26,8 +26,7 @@ function NavBar(props) {
     // updates that there is no info about user after logout    
     updateUserData();
     history("/login");
-    toast.info("You logged out from system !");
-    
+    toast.info("You logged out from system !"); 
   }
 
   return (

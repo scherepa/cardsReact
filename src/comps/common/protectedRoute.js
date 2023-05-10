@@ -13,7 +13,7 @@ function ProtectedRoute({ children, redirectTo, isBiz = false}) {
     let data = await checkIfUser()
   
     // check if this is bussiness route
-    if(isBiz){
+    if(localStorage["tok"] && isBiz){
       // getting data from service to check afterwards if this user is biz
       let user = getUserData();
       // checking if this user is biz

@@ -22,6 +22,7 @@ import EditCard from './comps/editCard';
 import { toast } from 'react-toastify';
 import { checkIfUser } from './services/authSer';
 import { getUserData } from './services/userSer';
+import NotLogedInOnlY from './comps/common/NotLogedInOnly';
 
 function App() {
   let [user,setUser] = useState(null);
@@ -49,40 +50,49 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home/>} />
           <Route exact path="/about" element={<About/>} />
-          <Route exact path="/signup" element={<SignUpClient/>} />
-          <Route exact path="/login" element={<Login/>} />
-          <Route path="/userInfo"
+          <Route exact path="/login"
             element={
-          // Good! Do your composition here instead of wrapping <Route>.
-          // This is really just inverting the wrapping, but it's a lot
-          // more clear which components expect which props.
+            <NotLogedInOnlY redirectTo="/">
+              <Login/>
+            </NotLogedInOnlY>
+            }
+          />
+          <Route exact path="/signup"
+            element={
+            <NotLogedInOnlY redirectTo="/">
+              <SignUpClient/>
+            </NotLogedInOnlY>
+            }
+          />
+          <Route exact path="/userInfo"
+            element={
             <ProtectedRoute redirectTo="/login">
               <UserInfo />
             </ProtectedRoute>
             }
           />
-          <Route path="/favorites"
+          <Route exact path="/favorites"
             element={
             <ProtectedRoute redirectTo="/login">
               <FavoriteCards/>
             </ProtectedRoute>
             }
           />
-          <Route path="/editCard/:id"
+          <Route exact path="/editCard/:id"
             element={
             <ProtectedRoute redirectTo="/"  isBiz={true}>
               <EditCard  path="/editCard/:id"/>
             </ProtectedRoute>
             }
           />
-          <Route path="/myBizCards"
+          <Route exact path="/myBizCards"
             element={
             <ProtectedRoute redirectTo="/"  isBiz={true}>
               <MyCards path="/myBizCards" />
             </ProtectedRoute>
             }
           />
-          <Route path="/addCard"
+          <Route exact path="/addCard"
             element={
             <ProtectedRoute redirectTo="/"  isBiz={true}>
               <AddCard path="/addCard" /> 

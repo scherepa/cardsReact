@@ -17,16 +17,18 @@ function Home(props){
     const quries = new URLSearchParams(window.location.search);
     let page = quries.get("page") ? quries.get("page")-1 : 0;
     let url = API_URL+"/cards?reverse=yes&page="+page;
+    setLoading(false);
     doApi(url)
 // props.location -> changes with route in address line
   },[location])
 
   const doApi = async(_url) => {
+    setLoading(true);
     let data = await doApiGet(_url);
     if (data) {
       setCardsAr(data);
-      setLoading(false);
     }
+    setLoading(false);
   }
 
 
